@@ -1,0 +1,27 @@
+name: CI Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ci-lint:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    steps:
+      - name: ci-lint
+        uses: goplugin/.github/actions/ci-lint-go@7ac9af09dda8c553593d2153a975b43b6958fa9f # ci-lint-go@0.2.2
+        with:
+          golangci-lint-version: v1.55.2
+          golangci-lint-args: --enable=gofmt --tests=false --exclude-use-default --timeout=5m0s --out-format checkstyle:golangci-lint-report.xml
+          # grafana inputs
+          metrics-job-name: cd-lint
+          gc-basic-auth: ${{ secrets.GRAFANA_INTERNAL_BASIC_AUTH }}
+          gc-host: ${{ secrets.GRAFANA_INTERNAL_HOST }}
+          gc-org-id: ${{ secrets.GRAFANA_INTERNAL_TENANT_ID }}
+

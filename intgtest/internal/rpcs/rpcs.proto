@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/goplugin/wsrpc/intgtest/internal/rpcs";
+
+package rpcs;
+
+service Echo {
+    rpc Echo(EchoRequest) returns (EchoResponse);
+}
+
+message EchoRequest {
+    string body = 1;
+    int64 delayMs = 2;
+}
+
+message EchoResponse {
+    string body = 1;
+}
